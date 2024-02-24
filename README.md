@@ -67,4 +67,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I have deployed the app using vercel , you can check here https://shorts-cloe-v1.vercel.app/
+
+Utilized material ui icons , bootstrap etc.
+
+Took some hints from chat gpt to tackle some errors . 
+
+Do check it and give some feedback .
