@@ -1,4 +1,4 @@
-import { Avatar } from "@material-ui/core";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { MoreVert, Videocam, Search } from '@mui/icons-material';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -170,12 +170,7 @@ function Video({
 
           <div className="shortDetails d-flex justify-content-between align-items-center">
             <div className="d-flex justify-content-between align-items-center">
-              <Avatar
-                className="mx-1"
-                src={
-                  "https://lh3.googleusercontent.com/ogw/ADGmqu8BCzU8GejYorGqXeu98A1kfEFYKFT85I3_9KJBzfw=s32-c-mo"
-                }
-              />
+            <AccountCircleIcon style={{ fontSize: '32px' }} />
               <p className="mx-1 text-light mt-1">{channel}</p>
               <Button className="mx-1 p-1 rounded-2 "
                 variant="danger"
