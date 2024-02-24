@@ -24,7 +24,7 @@ html {
 .app__videos::-webkit-scrollbar {
   display: none;
 }
-/* for IE Safari*/
+
 .app__videos {
   -ms-overflow-style: none;
   scrollbar-width: none;

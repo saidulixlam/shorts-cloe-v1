@@ -20,10 +20,20 @@ function Video({
 }) {
   const [playing, setPlaying] = useState(true);
   const [subs, setSubs] = useState(false);
-  
+  const [likes, setLikes] = useState(40);
+  const [dislikes, setDislikes] = useState(10);
+
 
   const videoRef = useRef(null);
   const containerRef = useRef(null);
+  useEffect(() => {
+    const storedLikes = localStorage.getItem(`likes_${src}`);
+    const storedDislikes = localStorage.getItem(`dislikes_${src}`);
+
+    setLikes(storedLikes ? parseInt(storedLikes, 10) : 0);
+    setDislikes(storedDislikes ? parseInt(storedDislikes, 10) : 0);
+  }, [src]);
+
 
   const handleVideoPress = () => {
     if (playing) {
@@ -35,16 +45,51 @@ function Video({
       videoRef.current.play();
     }
   };
-
+  const liked = localStorage.getItem(`liked_${src}`);
+  const disliked = localStorage.getItem(`disliked_${src}`);
   const handleSubscribe = () => {
     setSubs((sub) => !sub);
   };
-  
+  const handleLikes = () => {
+    if (!liked) {
+
+      setLikes((prevLikes) => prevLikes + 1);
+      localStorage.setItem(`likes_${src}`, likes + 1);
+      localStorage.setItem(`liked_${src}`, 'true');
+
+
+      const disliked = localStorage.getItem(`disliked_${src}`);
+      if (disliked) {
+        setDislikes((prevDislikes) => prevDislikes - 1);
+        localStorage.setItem(`dislikes_${src}`, dislikes - 1);
+        localStorage.removeItem(`disliked_${src}`);
+      }
+    }
+  };
+
+  const handleDislikes = () => {
+
+    if (!disliked) {
+
+      setDislikes((prevDislikes) => prevDislikes + 1);
+      localStorage.setItem(`dislikes_${src}`, dislikes + 1);
+      localStorage.setItem(`disliked_${src}`, 'true');
+
+
+      const liked = localStorage.getItem(`liked_${src}`);
+      if (liked) {
+        setLikes((prevLikes) => prevLikes - 1);
+        localStorage.setItem(`likes_${src}`, likes - 1);
+        localStorage.removeItem(`liked_${src}`);
+      }
+    }
+  };
+
   useEffect(() => {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.5, 
+      threshold: 0.5,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -81,7 +126,6 @@ function Video({
         ref={videoRef}
         src={src}
       />
-      
 
       <div className="shortsContainer">
         <div className="shortsVideoTop">
@@ -99,12 +143,12 @@ function Video({
 
         <div className="shortsVideoSideIcons">
           <div className="shortsVideoSideIcon">
-            <Button variant="transparent">< ThumbUpIcon /></Button>
-            <p>765</p>
+            <Button variant="transparent" onClick={handleLikes}><ThumbUpIcon style={{ color: liked ? 'blue' : 'white' }} /></Button>
+            <p>{likes}</p>
           </div>
           <div className="shortsVideoSideIcon">
-          <Button variant="transparent">< ThumbDownIcon /></Button>
-            <p>10</p>
+            <Button variant="transparent" onClick={handleDislikes}>< ThumbDownIcon style={{ color: disliked ? 'blue' : 'white' }} /></Button>
+            <p>{dislikes}</p>
           </div>
           <div className="shortsVideoSideIcon">
             < ShareIcon />
@@ -113,14 +157,13 @@ function Video({
 
           <div className="shortsVideoSideIcon">
             < CommentIcon />
-            <p>10</p>
+            <p>10+</p>
           </div>
         </div>
         <div className="shortsBottom">
           <div className="shortsDesc d-flex flex-column">
-          <h6 className="text-light m-0 ">{title}</h6>
+            <h6 className="text-light m-0 ">{title}</h6>
 
-            {/* <p className="description m-0 ">Description goes here.</p> */}
             <span className="text-light">#shorts #reel #joy</span>
             <p className="description m-0 animated-title">{song}</p>
           </div>
@@ -137,7 +180,7 @@ function Video({
               <Button className="mx-1 p-1 rounded-2 "
                 variant="danger"
                 style={{
-                  background: subs ?"hsla(0,0%,69.4%,.609)": "red" ,
+                  background: subs ? "hsla(0,0%,69.4%,.609)" : "red",
                 }}
                 onClick={handleSubscribe}
               >
@@ -145,10 +188,8 @@ function Video({
               </Button>
             </div>
             <div >
-            <PlayCircleIcon style={{ fontSize: '32px' }} />
-
+              <PlayCircleIcon style={{ fontSize: '32px' }} />
             </div>
-
           </div>
         </div>
       </div>
